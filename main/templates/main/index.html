@@ -1,0 +1,18 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block title %}My amazing blog{% endblock %}
+
+{% block content %}
+{% if dishes_list %}
+    <ul>
+    {% for dish in dishes_list %}
+        <li>{{ dish.name }}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No dishes are available.</p>
+{% endif %}
+<img src="{% static 'main/images/pixel-heart.svg' %}" alt="Girl in a jacket" width="500" height="600">
+
+{% endblock %}
