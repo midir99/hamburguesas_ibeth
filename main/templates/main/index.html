@@ -1,18 +1,336 @@
 {% extends "main/base.html" %}
 {% load static %}
 
-{% block title %}My amazing blog{% endblock %}
+{% block title %}Menú{% endblock %}
+
+{% block navbar_links %}
+    <li class="current dropdown"><a href="{% url 'main:menu' %}">Menú</a></li>
+    <li class="dropdown"><a href="{% url 'main:cart' %}">Mi orden</a></li>
+    <li class="dropdown"><a href="{% url 'login' %}">Administrar</a></li>
+{% endblock %}
+
+{% block sticky_navbar_links %}
+    <li class="current dropdown"><a href="{% url 'main:menu' %}">Menú</a></li>
+    <li class="dropdown"><a href="{% url 'main:cart' %}">Mi orden</a></li>
+    <li class="dropdown"><a href="{% url 'login' %}">Administrar</a></li>
+{% endblock %}
 
 {% block content %}
-{% if dishes_list %}
-    <ul>
-    {% for dish in dishes_list %}
-        <li>{{ dish.name }}</li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No dishes are available.</p>
-{% endif %}
-<img src="{% static 'main/images/pixel-heart.svg' %}" alt="Girl in a jacket" width="500" height="600">
 
+    <div class="page-wrapper">
+        <!-- Page title -->
+
+        <section class="page-title" style="background-image: url({% static 'main/images/background/11.jpg' %});">
+            <div class="auto-container">
+                <h1>Menú</h1>
+                <ul class="bread-crumb clearfix">
+                    <li><h4>{{ todays_date }}</h4></li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Page title end -->
+
+        <!-- Dishes section -->
+
+        <section class="dishes-section">
+            <div class="auto-container">
+                <div class="menu-sec-title centered">
+                    <h2>Hamburguesas Y Tortas</h2>
+                    <div class="text">Deliciosas, apetitosas & comestibles</div>
+                </div>
+                <div class="row clearfix">
+                    <div class="dishes-column col-lg-6 col-md-12 col-sm-12">
+                        <div class="inner-column">
+                            {% for dish in hamburgers %}
+                                <div class="dish-block">
+                                    <div class="inner-box">
+                                        <div class="image">
+                                            <a href="#">
+                                                {% if dish.img %}
+                                                    <img src="{{ dish.img.url }}"
+                                                         alt="Aquí debería estar una foto de este platillo"/>
+                                                {% else %}
+                                                    <img src="{% static 'main/images/hungry.png' %}"
+                                                         alt="Aquí debería estar una foto de este platillo"/>
+                                                {% endif %}
+                                            </a>
+                                        </div>
+                                        <div class="clearfix">
+                                            <div class="pull-left">
+                                                <h4><a href="#">{{ dish.name }}</a></h4>
+                                            </div>
+                                            <div class="pull-right">
+                                                <div class="price">${{ dish.price }}</div>
+                                            </div>
+                                        </div>
+                                        <div class="text">{{ dish.description }}</div>
+                                        <button data-toggle="modal" data-target="#orderModal"
+                                                class="mt-2 btn btn-warning btn-sm d-sm-none"
+                                                @click="configureOrderModal('{{ dish.name }}', '{{ dish.category }}', '{{ dish.price }}'{% if dish.img %}, '{{ dish.img.url }}'{% endif %})">Ordenar
+                                        </button>
+                                        <button data-toggle="modal" data-target="#orderModal"
+                                                class="pull-right btn btn-warning btn-sm d-none d-sm-block"
+                                                @click="configureOrderModal('{{ dish.name }}', '{{ dish.category }}', '{{ dish.price }}'{% if dish.img %}, '{{ dish.img.url }}'{% endif %})">Ordenar
+                                        </button>
+                                    </div>
+                                </div>
+                            {% empty %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="dishes-column col-lg-6 col-md-12 col-sm-12">
+                        <div class="inner-column">
+                            {% for dish in tortas %}
+                                <div class="dish-block">
+                                    <div class="inner-box">
+                                        <div class="image">
+                                            <a href="#">
+                                                {% if dish.img %}
+                                                    <img src="{{ dish.img.url }}"
+                                                         alt="Aquí debería estar una foto de este platillo"/>
+                                                {% else %}
+                                                    <img src="{% static 'main/images/hungry.png' %}"
+                                                         alt="Aquí debería estar una foto de este platillo"/>
+                                                {% endif %}
+                                            </a>
+                                        </div>
+                                        <div class="clearfix">
+                                            <div class="pull-left">
+                                                <h4><a href="#">{{ dish.name }}</a></h4>
+                                            </div>
+                                            <div class="pull-right">
+                                                <div class="price">${{ dish.price }}</div>
+                                            </div>
+                                        </div>
+                                        <div class="text">{{ dish.description }}</div>
+                                        <button data-toggle="modal" data-target="#orderModal"
+                                                class="mt-2 btn btn-warning btn-sm d-sm-none"
+                                                @click="configureOrderModal('{{ dish.name }}', '{{ dish.category }}', '{{ dish.price }}'{% if dish.img %}, '{{ dish.img.url }}'{% endif %})">Ordenar
+                                        </button>
+                                        <button data-toggle="modal" data-target="#orderModal"
+                                                class="pull-right btn btn-warning btn-sm d-none d-sm-block"
+                                                @click="configureOrderModal('{{ dish.name }}', '{{ dish.category }}', '{{ dish.price }}'{% if dish.img %}, '{{ dish.img.url }}'{% endif %})">Ordenar
+                                        </button>
+                                    </div>
+                                </div>
+                            {% empty %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dishes section end -->
+
+        <!-- Dishes section -->
+        <section class="dishes-section style-two"
+                 style="background-image: url({% static 'main/images/background/8.jpg' %});">
+            <div class="auto-container">
+                <div class="menu-sec-title light centered">
+                    <h2>Postres</h2>
+                    <div class="text">Dulces, cremosos & esponjositos</div>
+                </div>
+                <div class="row clearfix">
+                    <div class="dishes-column col-lg-6 col-md-12 col-sm-12">
+                        <div class="inner-column">
+                            {% for dish in desserts1 %}
+                                <div class="dish-block style-two">
+                                    <div class="inner-box">
+                                        <div class="image">
+                                            <a href="#">
+                                                {% if dish.img %}
+                                                    <img src="{{ dish.img.url }}"
+                                                         alt="Aquí debería estar una foto de este platillo"/>
+                                                {% else %}
+                                                    <img src="{% static 'main/images/hungry.png' %}"
+                                                         alt="Aquí debería estar una foto de este platillo"/>
+                                                {% endif %}
+                                            </a>
+                                        </div>
+                                        <div class="clearfix">
+                                            <div class="pull-left">
+                                                <h4><a href="#">{{ dish.name }}</a></h4>
+                                            </div>
+                                            <div class="pull-right">
+                                                <div class="price">${{ dish.price }}</div>
+                                            </div>
+                                        </div>
+                                        <div class="text">{{ dish.description }}</div>
+                                        <button data-toggle="modal" data-target="#orderModal"
+                                                class="mt-2 btn btn-warning btn-sm d-sm-none"
+                                                @click="configureOrderModal('{{ dish.name }}', '{{ dish.category }}', '{{ dish.price }}'{% if dish.img %}, '{{ dish.img.url }}'{% endif %})">Ordenar
+                                        </button>
+                                        <button data-toggle="modal" data-target="#orderModal"
+                                                class="pull-right btn btn-warning btn-sm d-none d-sm-block"
+                                                @click="configureOrderModal('{{ dish.name }}', '{{ dish.category }}', '{{ dish.price }}'{% if dish.img %}, '{{ dish.img.url }}'{% endif %})">Ordenar
+                                        </button>
+                                    </div>
+                                </div>
+                            {% empty %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="dishes-column col-lg-6 col-md-12 col-sm-12">
+                        <div class="inner-column">
+                            {% for dish in desserts2 %}
+                                <div class="dish-block style-two">
+                                    <div class="inner-box">
+                                        <div class="image">
+                                            <a href="#">
+                                                {% if dish.img %}
+                                                    <img src="{{ dish.img.url }}"
+                                                         alt="Aquí debería estar una foto de este platillo"/>
+                                                {% else %}
+                                                    <img src="{% static 'main/images/hungry.png' %}"
+                                                         alt="Aquí debería estar una foto de este platillo"/>
+                                                {% endif %}
+                                            </a>
+                                        </div>
+                                        <div class="clearfix">
+                                            <div class="pull-left">
+                                                <h4><a href="#">{{ dish.name }}</a></h4>
+                                            </div>
+                                            <div class="pull-right">
+                                                <div class="price">${{ dish.price }}</div>
+                                            </div>
+                                        </div>
+                                        <div class="text">{{ dish.description }}</div>
+                                        <button data-toggle="modal" data-target="#orderModal"
+                                                class="mt-2 btn btn-warning btn-sm d-sm-none"
+                                                @click="configureOrderModal('{{ dish.name }}', '{{ dish.category }}', '{{ dish.price }}'{% if dish.img %}, '{{ dish.img.url }}'{% endif %})">Ordenar
+
+                                        </button>
+                                        <button data-toggle="modal" data-target="#orderModal"
+                                                class="pull-right btn btn-warning btn-sm d-none d-sm-block"
+                                                @click="configureOrderModal('{{ dish.name }}', '{{ dish.category }}', '{{ dish.price }}'{% if dish.img %}, '{{ dish.img.url }}'{% endif %})">Ordenar
+
+                                        </button>
+                                    </div>
+                                </div>
+                            {% empty %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dishes section end -->
+        <!-- Dishes section -->
+
+        <section class="dishes-section style-three">
+            <div class="auto-container">
+                <div class="menu-sec-title centered">
+                    <h2>Bebidas y Licuados</h2>
+                    <div class="text">
+                        Para bajarte las tortas
+                    </div>
+                </div>
+                <div class="row clearfix">
+                    <div class="column col-lg-6 col-md-12 col-sm-12">
+                        <div class="menus-outer">
+                            {% for dish in drinks1 %}
+                                <div class="menu-block">
+                                    <div class="inner-box">
+                                        <div class="clearfix">
+                                            <div class="pull-left">
+                                                <h4><a href="#">{{ dish.name }}</a></h4>
+                                            </div>
+                                            <div class="pull-right">
+                                                <div class="price">${{ dish.price }}</div>
+                                            </div>
+                                        </div>
+                                        <div class="text">{{ dish.description }}</div>
+                                        <button data-toggle="modal" data-target="#orderModal"
+                                                class="mt-2 btn btn-warning btn-sm"
+                                                @click="configureOrderModal('{{ dish.name }}', '{{ dish.category }}', '{{ dish.price }}'{% if dish.img %}, '{{ dish.img.url }}'{% endif %})">Ordenar
+                                        </button>
+                                    </div>
+                                </div>
+                            {% empty %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="column col-lg-6 col-md-12 col-sm-12">
+                        <div class="inner-column">
+                            {% for dish in drinks2 %}
+                                <div class="menu-block">
+                                    <div class="inner-box">
+                                        <div class="clearfix">
+                                            <div class="pull-left">
+                                                <h4><a href="#">{{ dish.name }}</a></h4>
+                                            </div>
+                                            <div class="pull-right">
+                                                <div class="price">${{ dish.price }}</div>
+                                            </div>
+                                        </div>
+                                        <div class="text">{{ dish.description }}</div>
+                                        <button data-toggle="modal" data-target="#orderModal"
+                                                class="mt-2 btn btn-warning btn-sm"
+                                                @click="configureOrderModal('{{ dish.name }}', '{{ dish.category }}', '{{ dish.price }}'{% if dish.img %}, '{{ dish.img.url }}'{% endif %})">Ordenar
+                                        </button>
+                                    </div>
+                                </div>
+                            {% empty %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Dishes section end -->
+    </div>
+
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="orderModal" style="z-index: 9999999;" tabindex="-1" role="dialog"
+         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <b><p class="modal-title text" id="modalDishTitle"></p></b>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="dish-block">
+                        <div class="inner-box">
+                            <div class="image">
+                                <a href="#">
+                                    <img src="" id="modalDishImg" alt="Sin foto">
+                                </a>
+                            </div>
+                            <div class="clearfix">
+                                <div class="pull-left">
+                                    <h5>Ingredientes:</h5>
+                                    <ul id="modalIngredientsCheckBoxList" class="mt-2">
+                                    </ul>
+                                </div>
+                                <div class="pull-right">
+                                    <div class="price" id="modalDishPrice"></div>
+                                </div>
+                            </div>
+                            <div class="form-group row mt-4">
+{#                                <label class="col-sm-2 col-form-label" for="modalQuantity">Cantidad:</label>#}
+{#                                <input type="number" name="amount" value="1" class="form-control" step="1" id="modalQuantity">#}
+                                <label for="modalQuantity" class="col-sm-3 col-form-label">Cantidad:     </label>
+                                <div class="col-sm-9">
+                                  <input type="number" class="form-control" value="1" name="quantity" id="modalQuantity" step="1" min="1">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" @click="addToCart" class="btn btn-secondary" data-dismiss="modal">Agregar a mi orden</button>
+                    <button type="button" @click="addToCartAndGoCheckOut" class="btn btn-warning">Ordenar Ahora</button>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
+

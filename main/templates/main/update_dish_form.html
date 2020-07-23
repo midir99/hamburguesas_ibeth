@@ -1,0 +1,115 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block navbar_links %}
+    <li class="dropdown"><a href="{% url 'main:menu' %}">Menú</a></li>
+    <li class="dropdown"><a href="{% url 'main:menu_admin' %}">Platillos</a></li>
+    <li class="dropdown"><a href="{% url 'main:createdish' %}">Nuevo Platillo</a></li>
+    <li class="dropdown"><a href="{% url 'logout' %}">Salir</a></li>
+{% endblock %}
+
+{% block sticky_navbar_links %}
+    <li class="dropdown"><a href="{% url 'main:menu' %}">Menú</a></li>
+    <li class="dropdown"><a href="{% url 'main:menu_admin' %}">Platillos</a></li>
+    <li class="dropdown"><a href="{% url 'main:createdish' %}">Nuevo Platillo</a></li>
+    <li class="dropdown"><a href="{% url 'logout' %}">Salir</a></li>
+{% endblock %}
+
+{% block content %}
+    <!--Cart Section-->
+    {% if form.errors %}
+    {% for field in form %}
+        {% for error in field.errors %}
+            <div class="alert alert-danger">
+                <strong>{{ field }}{{ error|escape }}</strong>
+            </div>
+        {% endfor %}
+    {% endfor %}
+    {% for error in form.non_field_errors %}
+        <div class="alert alert-danger">
+            <strong>{{ error|escape }}</strong>
+        </div>
+    {% endfor %}
+{% endif %}
+    <section class="cart-section">
+        <div class="auto-container">
+
+            <!--Cart Outer-->
+            <div class="cart-outer mt-3">
+                <div class="col-md-12 mb-4">
+                    <form method="post" enctype="multipart/form-data">{% csrf_token %}
+                      <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="id_name">Nombre</label>
+                            <input type="text" name="name" class="form-control" value="{{ dish.name }}" maxlength="50" required="" id="id_name">
+                            {% if form.errors.name %}
+                                <small>{{ form.errors.name|escape }}</small>
+                            {% endif %}
+                        </div>
+
+                          <div class="form-group col-md-6">
+                              <label for="id_description">Descripción</label>
+                              <input type="text" class="form-control" name="description" value="{{ dish.description }}" maxlength="200" required="" id="id_description">
+                          </div>
+
+                      </div>
+                      <div class="form-row">
+
+                        <div class="form-group col-md-4">
+                          <label for="id_category">Categoría</label>
+                          <select id="id_category" class="form-control" required name="category">
+                              {% if dish.category == 'Bebida' %}
+                                <option selected value="Bebida">Bebidas</option>
+                              {% else %}
+                                  <option value="Bebida">Bebidas</option>
+                              {% endif %}
+
+                              {% if dish.category == 'Hamburguesa' %}
+                                  <option selected value="Hamburguesa">Hamburgesas</option>
+                              {% else %}
+                                  <option value="Hamburguesa">Hamburgesas</option>
+                              {% endif %}
+
+                              {% if dish.category == 'Torta' %}
+                                  <option selected value="Torta">Tortas</option>
+                              {% else %}
+                                  <option value="Torta">Tortas</option>
+                              {% endif %}
+
+                              {% if dish.category == 'Postre' %}
+                                <option selected value="Postre">Postres</option>
+                              {% else %}
+                                  <option value="Postre">Postres</option>
+                              {% endif %}
+                          </select>
+                        </div>
+                        <div class="form-group col-md-2">
+                          <label for="id_price">Precio</label>
+                            <input type="number" name="price" value="{{ dish.price }}" class="form-control" step="0.50" required="" id="id_price">
+                        </div>
+                          <div class="form-group col-md-6">
+                            <label for="id_img">Imágen</label>
+                            <input type="file" name="img" accept="image/*" class="form-control-file" id="id_img">
+                              {% if dish.img %}
+                              <input type="checkbox" name="img-clear" id="img-clear_id">  <label for="img-clear_id">Borrar <a href="{{ dish.img.url }}">actual</a></label>
+                              {% endif %}
+                          </div>
+                      </div>
+                      <div class="form-group">
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" name="is_enabled" id="id_is_enabled" {% if dish.is_enabled %}checked{% endif %}>
+                          <label class="form-check-label" for="id_is_enabled">
+                            Habilitado
+                          </label>
+                        </div>
+                      </div>
+                        <input type="hidden" name="units_sold" value="0" min="0" required="" id="id_units_sold">
+                        <input type="submit" class="btn btn-primary mb-2" value="Guardar cambios">
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </section>
+    <!--End Cart Section-->
+{% endblock %}

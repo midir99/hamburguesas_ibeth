@@ -1,0 +1,124 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block navbar_links %}
+    <li class="dropdown"><a href="{% url 'main:menu' %}">Menú</a></li>
+    <li class="current dropdown"><a href="{% url 'main:menu_admin' %}">Platillos</a></li>
+    <li class="dropdown"><a href="{% url 'main:createdish' %}">Nuevo Platillo</a></li>
+    <li class="dropdown"><a href="{% url 'logout' %}">Salir</a></li>
+{% endblock %}
+
+{% block sticky_navbar_links %}
+    <li class="dropdown"><a href="{% url 'main:menu' %}">Menú</a></li>
+    <li class="current dropdown"><a href="{% url 'main:menu_admin' %}">Platillos</a></li>
+    <li class="dropdown"><a href="{% url 'main:createdish' %}">Nuevo Platillo</a></li>
+    <li class="dropdown"><a href="{% url 'logout' %}">Salir</a></li>
+{% endblock %}
+
+{% block content %}
+    <!--Cart Section-->
+    <section class="cart-section">
+        <div class="auto-container">
+
+            <!--Cart Outer-->
+            <div class="cart-outer mt-3">
+                <div class="col-md-12 mb-4">
+                    <div class="clear-text">
+                        <div class="pull-left">
+                            <form class="form-inline" method="get" action="{% url 'main:menu_admin' %}">
+                              <input type="text" class="form-control mr-sm-2" id="inlineFormInputName2" name="name" value="{{ name }}" placeholder="Nombre">
+                              <label class="my-1 mr-2" for="inlineFormCustomSelectPref"><b>Categoría: </b></label>
+                              <select class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref" name="category">
+                                  <option value="">Cualquiera</option>
+                                  {% for cat in categories %}
+                                      {% if cat.0 == category %}
+                                          <option value="{{ cat.0 }}" selected>{{ cat.1 }}</option>
+                                      {% else %}
+                                          <option value="{{ cat.0 }}">{{ cat.1 }}</option>
+                                      {% endif %}
+                                  {% endfor %}
+                              </select>
+                              <button type="submit" class="btn btn-secondary btn-warning my-1">Filtrar</button>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="table-outer col-md-12 mt-3">
+                    <table class="table table-bordered table-hover">
+                        <thead class="">
+                        <tr class="bg-warning">
+                            <th scope="col">Platillo</th>
+                            <th scope="col">Precio</th>
+{#                            <th scope="col">#}
+{#                                <div class="d-md-none">C.V</div>#}
+{#                                <div class="d-none d-md-block">Cantidad Vendida</div>#}
+{#                            </th>#}
+                            <th scope="col">
+                                <div class="d-md-none">H.</div>
+                                <div class="d-none d-md-block">Habilitado</div>
+                            </th>
+                            <th scope="col">Acciones</th>
+                        </tr>
+                        </thead>
+                        <tbody id="">
+                        {% for dish in menu %}
+                            <tr>
+                                <td>{{ dish.name }}</td>
+                                <td>${{ dish.price }}</td>
+{#                                <td>{{ dish.units_sold }}</td>#}
+                                <td>{% if dish.is_enabled %}Sí{% else %}No{% endif %}</td>
+                                <td class="text-center">
+                                    <form method="get" style="display: inline-block;" action="{% url 'main:deletedish' dish.id %}">{% csrf_token %}
+                                        <input type="hidden" name="page" value="{{ page_obj.number }}">
+                                        <input type="hidden" name="name" value="{{ name }}">
+                                        <input type="hidden" name="category" value="{{ category }}">
+                                        <button type="submit" class="btn-sm btn-danger"><i class="icon fa fa-times"></i></button>
+                                    </form>
+
+                                    <form action="{% url 'main:updatedish' dish.id %}" method="get" style="display: inline-block;">
+                                        <input type="hidden" name="page" value="{{ page_obj.number }}">
+                                        <input type="hidden" name="name" value="{{ name }}">
+                                        <input type="hidden" name="category" value="{{ category }}">
+                                        <button type="submit" class="btn-sm btn-warning"><i class="icon fa fa-pencil-alt"></i></button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% empty %}
+                            <tr>
+                                <td colspan="6">No hay platillos registrados</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    <div class="clearfix">
+                        <div class="pull-left">
+                            <div class="hint-text">Página <b>{{ page_obj.number }}</b> de <b>{{ paginator.num_pages }}</b></div>
+                        </div>
+                        <div class="pull-right">
+                            <ul class="pagination">
+                                {% if page_obj.has_previous %}
+                                    <li class="page-item"><a href="?page=1&category={{ category }}&name={{ name }}" class="page-link">Primera</a></li>
+                                    <li class="page-item"><a href="?page={{ page_obj.previous_page_number }}&category={{ category }}&name={{ name }}" class="page-link">Anterior</a></li>
+                                {% else %}
+                                    <li class="page-item disabled"><a href="#" class="page-link">Primera</a></li>
+                                    <li class="page-item disabled"><a href="#" class="page-link">Anterior</a></li>
+                                {% endif %}
+
+                                {% if page_obj.has_next %}
+                                    <li class="page-item"><a href="?page={{ page_obj.next_page_number }}&category={{ category }}&name={{ name }}" class="page-link">Siguiente</a></li>
+                                    <li class="page-item"><a href="?page={{ page_obj.paginator.num_pages }}&category={{ category }}&name={{ name }}" class="page-link">Última</a></li>
+                                {% else %}
+                                    <li class="page-item disabled"><a href="#" class="page-link">Siguiente</a></li>
+                                    <li class="page-item disabled"><a href="#" class="page-link">Última</a></li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+    <!--End Cart Section-->
+{% endblock %}

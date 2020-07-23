@@ -2,22 +2,224 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" type="text/css" href="{% static 'main/style.css' %}">
-    <title>{% block title %}My amazing site{% endblock %}</title>
+    <meta charset="utf-8"/>
+    <link href="{% static 'main/css/bootstrap.css' %}" type="text/css" rel="stylesheet"/>
+    <link href="{% static 'main/vendors/flat-icon/flaticon.css' %}" type="text/css" rel="stylesheet"/>
+    <link href="{% static 'main/css/style.css' %}" type="text/css" rel="stylesheet"/>
+    <link href="{% static 'main/css/responsive.css' %}" type="text/css" rel="stylesheet"/>
+    <link rel="shortcut icon" href="{% static 'main/favicon.ico' %}"/>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600;700&family=Open+Sans:wght@400;600;700;800&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,700&family=Poppins:wght@300;400;500;600;700;800;900&display=swap"
+          rel="stylesheet"/>
+    {% block cssfiles %}{% endblock %}
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    <title>{% block title %}Hamburguesas Ibeth{% endblock %}</title>
 </head>
 
 <body>
-    <div id="sidebar">
-        {% block sidebar %}
-        <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="/blog/">Blog</a></li>
-        </ul>
-        {% endblock %}
-    </div>
+
+<div id="app">
+
+    {% block main_header %}
+        <!-- Header end -->
+
+        <header class="main-header">
+
+            <!-- Header top -->
+
+            <div class="header-top">
+                <div class="auto-container clearfix">
+                    <div class="top-left">
+                        <ul class="info-list">
+                            <li>Sirviendo en todo San Andrés</li>
+                        </ul>
+                    </div>
+                    <div class="top-right clearfix">
+                        <ul class="social-box">
+                            <li><a href="https://www.facebook.com/lahamburguesitha.miranda"><span class="fab fa-facebook-f"></span></a></li>
+                        </ul>
+                        <div class="option-list">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Header top end -->
+
+            <!-- Header upper -->
+
+            <div class="header-upper">
+                <div class="inner-container">
+                    <div class="auto-container clearfix">
+                        <div class="logo-outer">
+                            <div class="logo">
+                                <a href="index.html"><img src="{% static 'main/images/logo-mr-krabs.png' %}" alt=""
+                                                          title=""/></a>
+                            </div>
+                        </div>
+                        <div class="nav-outer clearfix">
+                            <nav class="main-menu navbar-expand-md navbar-light">
+                                <div class="navbar-header">
+                                    <button
+                                            class="navbar-toggler"
+                                            type="button"
+                                            data-toggle="collapse"
+                                            data-target="#navbarSupportedContent"
+                                            aria-controls="navbarSupportedContent"
+                                            aria-expanded="false"
+                                            aria-label="Toggle navigation"
+                                    >
+                                        <span class="icon flaticon-menu"></span>
+                                    </button>
+                                </div>
+                                <div class="collapse navbar-collapse clearfix" id="navbarSupportedContent">
+                                    <ul class="navigation clearfix">
+                                        {% block navbar_links %}
+                                            <li class="dropdown"><a href="{% url 'main:menu' %}">Menú</a></li>
+                                            <li class="dropdown"><a href="{% url 'main:cart' %}">Mi orden</a>
+                                            </li>
+                                            <li class="dropdown"><a href="{% url 'login' %}">Administrar</a></li>
+                                        {% endblock %}
+                                    </ul>
+                                </div>
+                            </nav>
+                            <div class="outer-box">
+                                <div class="order">
+                                    ¡Ordena ahora!
+                                    <span><a href="tel:7393956181">739 395 6181</a></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Header upper end -->
+
+            <!-- Sticky header -->
+
+            <div class="sticky-header">
+                <div class="auto-container clearfix">
+                    <div class="logo pull-left">
+                        <a href="index.html" class="img-responsive">
+                            <img src="{% static 'main/images/logo-small-hamburguers.png' %}" alt="" title=""/>
+                        </a>
+                    </div>
+                    <div class="right-col pull-right">
+                        <nav class="main-menu navbar-expand-md">
+                            <button
+                                    class="navbar-toggler"
+                                    type="button"
+                                    data-toggle="collapse"
+                                    data-target="#navbarSupportedContent1"
+                                    aria-controls="navbarSupportedContent1"
+                                    aria-expanded="false"
+                                    aria-label="Toggle navigation"
+                            >
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                            <div
+                                    class="navbar-collapse collapse clearfix"
+                                    id="navbarSupportedContent1"
+                            >
+                                <ul class="navigation clearfix">
+                                    {% block sticky_navbar_links %}
+                                        <li class="dropdown"><a href="{% url 'main:menu' %}">Menú</a></li>
+                                        <li class="dropdown"><a href="{% url 'main:cart' %}">Mi orden</a></li>
+                                        <li class="dropdown"><a href="{% url 'login' %}">Administrar</a></li>
+                                    {% endblock %}
+                                </ul>
+                            </div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sticky header end -->
+
+        </header>
+
+        <!-- Header end -->
+    {% endblock %}
 
     <div id="content">
         {% block content %}{% endblock %}
     </div>
+
+    {% block footer %}
+        <!-- Footer -->
+
+        <footer class="main-footer" style="background-image: url({% static 'main/images/background/4.png' %});">
+            <div class="auto-container">
+                <div class="widgets-section">
+                    <div class="row clearfix">
+                        <div class="footer-column col-lg-3 col-md-6 col-sm-12">
+                            <div class="footer-widget info-widget">
+                                <h4>Información de contacto</h4>
+                                <p>Teléfono local</p>
+                                <a class="number" href="tel:7393956181">739 395 6181</a>
+                            </div>
+                        </div>
+                        <div class="footer-column col-lg-6 col-md-12 col-sm-12">
+                            <div class="footer-widget logo-widget">
+                                <div class="logo">
+                                    <a href="#"><img src="{% static 'main/images/footer-logo-hamburguer.png' %}"
+                                                     alt="Nuestro Logo"/></a>
+                                </div>
+                                <div class="text">
+                                    El Crustáceo Cascarudo <br/>
+                                    Calle Ignacio Allende S.N. <br/>
+                                    San Andrés de la Cal <br/>
+                                    Tepoztlán, Mor.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="footer-column col-lg-3 col-md-6 col-sm-12">
+                            <div class="footer-widget timing-widget">
+                                <h4>Horario</h4>
+                                <ul class="timing-list">
+                                    <li>Viernes a Domingo <span>7 PM – 10 PM</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+        <!-- Footer end -->
+    {% endblock %}
+
+    {% block scroll_to_top %}
+        <div class="scroll-to-top scroll-to-target" data-target="html">
+            <span class="fa fa-angle-up"></span>
+        </div>
+{#        <div class="btn-whatsapp">#}
+{#            <a href="https://wa.me/5217772326156?text=Hola,%20me%20gustaría%20saber%20más%20sobre%20los%20servicios%20que%20ofrece" target="_blank">#}
+{#              <img src="{% static 'main/images/wh.png' %}" alt="">#}
+{#            </a>#}
+{#        </div>#}
+    {% endblock %}
+
+</div>
+
+<script src="{% static 'main/js/jquery.js' %}"></script>
+<script src="{% static 'main/js/parallax.min.js' %}"></script>
+<script src="{% static 'main/js/popper.min.js' %}"></script>
+<script src="{% static 'main/js/jquery-ui.js' %}"></script>
+<script src="{% static 'main/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'main/js/jquery.fancybox.js' %}"></script>
+<script src="{% static 'main/js/owl.js' %}"></script>
+<script src="{% static 'main/js/wow.js' %}"></script>
+<script src="{% static 'main/js/mixitup.js' %}"></script>
+<script src="{% static 'main/js/appear.js' %}"></script>
+<script src="{% static 'main/js/script.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="{% static 'main/js/index_script.js' %}"></script>
+
+{% block jsfiles %}{% endblock %}
+
 </body>
 </html>

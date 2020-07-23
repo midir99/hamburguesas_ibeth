@@ -1,0 +1,107 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block navbar_links %}
+    <li class="dropdown"><a href="{% url 'main:menu' %}">Menú</a></li>
+    <li class="current dropdown"><a href="{% url 'main:cart' %}">Mi orden</a></li>
+    <li class="dropdown"><a href="{% url 'login' %}">Administrar</a></li>
+{% endblock %}
+
+{% block content %}
+    <!-- Page Title -->
+
+    {#    <section class="page-title" style="background-image: url({% static 'main/images/background/11.jpg' %})">#}
+    {#        <div class="auto-container">#}
+    {#            <h1>Shoping Cart</h1>#}
+    {#            <ul class="bread-crumb clearfix">#}
+    {#                <li><a href="index.html">Home</a></li>#}
+    {#                <li><a href="shop.html">Shop</a></li>#}
+    {#                <li>Cart</li>#}
+    {#            </ul>#}
+    {#        </div>#}
+    {#    </section>#}
+    <!-- End Page Title -->
+
+    <!--Cart Section-->
+    <section class="cart-section">
+        <div class="auto-container">
+
+            <!--Cart Outer-->
+
+            <div class="table-outer col-md-12 mt-3">
+                <table class="table table-bordered table-hover">
+                    <thead class="">
+                    <tr class="bg-warning">
+                        <th scope="col">Imágen</th>
+                        <th scope="col">Platillo</th>
+                        <th scope="col">Ingredientes</th>
+                        <th scope="col">
+                            <div class="d-md-none">C.</div>
+                            <div class="d-none d-md-block">Cantidad</div>
+                        </th>
+                        <th scope="col">
+                            <div class="d-md-none">P.</div>
+                            <div class="d-none d-md-block">Precio</div>
+                        </th>
+                        <th scope="col">
+                            Total
+                        </th>
+                        <th scope="col">Acciones</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(dish, index) in shoppingCart" :id="[[ dish.id ]]">
+                            <td class="text-center"><img :src="[[ dish.imgUrl ]]" height="60" width="60" alt=""></td>
+                            <td class="text-center">[[ dish.name ]]</td>
+{#                            <td><input class="form-control col-md-2 col-lg-2" type="number" step="1" min="1" :value="[[ dish.quantity ]]" name="quantity"></td>#}
+                            <td class="">
+                                <ul>
+                                    <li v-for="ing in dish.ingredients">
+                                        ✔️ [[ ing ]]
+                                    </li>
+                                </ul>
+                            </td>
+                            <td class="text-center">[[ dish.quantity ]]</td>
+                            <td class="text-center">$[[ dish.price ]]</td>
+                            <td class="text-center">[[ dish.price * dish.quantity ]]</td>
+                            <td class="text-center"><button @click="removeListDish(dish.id)" class="btn btn-sm btn-danger"><i class="icon fa fa-times"></i></button></td>
+                        </tr>
+                        <tr v-if="shoppingCart.length === 0"><td class="text-center" colspan="7"><b>No has agregado nada</b></td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+
+            <div class="cart-outer">
+                <div class="row clearfix">
+                    <div class="column col-lg-7 col-md-12 col-sm-12"></div>
+                    <div class="column pull-right col-lg-5 col-md-12 col-sm-12">
+                        <ul class="totals-table">
+                            <li class="clearfix total"><span class="col"><h3>Total</h3></span><span
+                                    class="col price">$[[ getTotalCost ]]</span></li>
+                            <li class="text-right">
+                                <button @click="sendWaMessage" class="theme-btn btn-style-five proceed-btn"><span class="txt">Completar Orden</span></button>
+{#                                <a href="https://wa.me/5217772326156?text=Hola,%20me%20gustaría%20saber%20más%20sobre%20los%20servicios%20que%20ofrece"#}
+{#                                   class="theme-btn btn-style-five proceed-btn">#}
+{#                                    <span class="txt">Completar Orden</span>#}
+{#                                </a>#}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+    <!--End Cart Section-->
+{% endblock %}
+
+{% block sticky_navbar_links %}
+    <li class="dropdown"><a href="{% url 'main:menu' %}">Menú</a></li>
+    <li class="current dropdown"><a href="{% url 'main:cart' %}">Mi orden</a></li>
+    <li class="dropdown"><a href="{% url 'login' %}">Administrar</a></li>
+{% endblock %}
+
+{% block jsfiles %}
+    <script src="{% static 'main/js/cart_script.js' %}"></script>
+{% endblock %}

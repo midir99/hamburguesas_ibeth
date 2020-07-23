@@ -1,39 +1,78 @@
 {% extends "main/base.html" %}
+{% load static %}
 
 {% block title %}Login{% endblock %}
 
+{% block navbar_links %}
+    <li class="dropdown"><a href="{% url 'main:menu' %}">Menú</a></li>
+    <li class="dropdown"><a href="{% url 'main:cart' %}">Mi orden</a></li>
+    <li class="current dropdown"><a href="{% url 'login' %}">Administrar</a></li>
+{% endblock %}
+
+{% block sticky_navbar_links %}
+    <li class="dropdown"><a href="{% url 'main:menu' %}">Menú</a></li>
+    <li class="dropdown"><a href="{% url 'main:cart' %}">Mi orden</a></li>
+    <li class="current dropdown"><a href="{% url 'login' %}">Administrar</a></li>
+{% endblock %}
+
 {% block content %}
+<!-- Contact Page Title -->
+<section class="contact-page-title" style="background-image: url({% static 'main/images/background/17.jpg' %})">
+    <div class="auto-container">
+        <h1>Es bueno tenerla de <br> vuelta, señora</h1>
+    </div>
+</section>
+<!-- End Contact Page Title -->
 
-{% if form.errors %}
-<p>Your username and password didn't match. Please try again.</p>
-{% endif %}
+<section class="contact-page-section">
+    <div class="auto-container">
+        <div class="row clearfix">
 
-{% if next %}
-    {% if user.is_authenticated %}
-    <p>Your account doesn't have access to this page. To proceed,
-    please login with an account that has access.</p>
-    {% else %}
-    <p>Please login to see this page.</p>
-    {% endif %}
-{% endif %}
+            <!-- Form Column -->
+            <div class="form-column col-lg-8 col-md-12 col-sm-12">
+                <div class="inner-column">
+                    <div class="title-box">
+                        <h3>Inicia sesión</h3>
+                        <div class="text">Ingresa tu usuario, contraseña y después haz clic en Iniciar</div>
+                    </div>
 
-<form method="post" action="{% url 'login' %}">
-{% csrf_token %}
-<table>
-<tr>
-    <td>{{ form.username.label_tag }}</td>
-    <td>{{ form.username }}</td>
-</tr>
-<tr>
-    <td>{{ form.password.label_tag }}</td>
-    <td>{{ form.password }}</td>
-</tr>
-</table>
+                    {% if form.errors %}
+                    <p>Te equivocaste al escribir tu usuario o contraseña</p>
+                    {% endif %}
 
-<input type="submit" value="login">
-<input type="hidden" name="next" value="{{ next }}">
-</form>
+                    {% if next %}
+                        {% if user.is_authenticated %}
+                        <p>Tu cuenta no tiene acceso a esta página, ingresa con una cuenta que sí disponga del acceso.</p>
+                        {% else %}
+                        <p>Por favor, ingresa para poder ver esta página.</p>
+                        {% endif %}
+                    {% endif %}
 
-{# Assumes you setup the password_reset view in your URLconf #}
-<p><a href="{% url 'password_reset' %}">Lost password?</a></p>
+                    <!-- Contact Form -->
+                    <div class="contact-form">
+                        <form method="post" action="{% url 'login' %}">{% csrf_token %}
+                            <div class="row clearfix">
+                                <div class="form-group col-lg-6 col-md-12 col-sm-12">
+                                    <label for="id_username">Usuario</label>
+                                    {{ form.username }}
+                                </div>
+
+                                <div class="form-group col-lg-6 col-md-12 col-sm-12">
+                                    <label for="id_password">Contraseña</label>
+                                    {{ form.password }}
+                                </div>
+                                <div class="form-group col-lg-12 col-md-12 col-sm-12">
+                                    <input type="submit" class="theme-btn btn-style-five" value="Iniciar">
+                                </div>
+                                <input type="hidden" name="next" value="{{ next }}">
+                            </div>
+                        </form>
+                    </div>
+{#                    <p><a href="{% url 'password_reset' %}">¿Olvidó su contraseña señora?</a></p>#}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--End Faq Section-->
 {% endblock %}
