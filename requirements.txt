@@ -1,12 +1,10 @@
-asgiref @ file:///tmp/build/80754af9/asgiref_1594338739818/work
-autopep8 @ file:///tmp/build/80754af9/autopep8_1592412889138/work
-certifi==2020.6.20
+asgiref==3.2.10
 Django==3.0.3
-django-cleanup @ file:///home/conda/feedstock_root/build_artifacts/django-cleanup_1591543266870/work
-mysqlclient @ file:///tmp/build/80754af9/mysqlclient_1594308742726/work
-olefile==0.46
-Pillow @ file:///tmp/build/80754af9/pillow_1594307295532/work
-pycodestyle==2.6.0
+django-cleanup==5.0.0
+gunicorn==20.0.4
+mysqlclient==2.0.1
+Pillow==7.2.0
+pkg-resources==0.0.0
 pytz==2020.1
 sqlparse==0.3.1
-toml @ file:///tmp/build/80754af9/toml_1592853716807/work
+whitenoise==5.1.0

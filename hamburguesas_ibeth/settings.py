@@ -25,7 +25,7 @@ SECRET_KEY = 'b&lj%7b!$s@k+jot(82wv3@mntzoa=%e_8yq7sfv^nja$xe51('
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['ibethburgers.ddns.net', '192.168.1.15']
 
 
 # Application definition
@@ -49,6 +49,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'hamburguesas_ibeth.urls'
